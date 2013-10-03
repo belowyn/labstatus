@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys, os, getopt
+import sys, os, getopt, pickle
 
 usage = "usage: " + str(sys.argv[0]) + " <labmap> <lablist>"
 
@@ -16,10 +16,11 @@ class bcolors:
         self.endC = ''
 
 def readfile(inmap, inlist):
-    map = inmap.read()
-    iplist = inlist.read()
-    print iplist
-    print map % iplist
+    map = str(inmap.read())
+    iplist = []
+    for line in inlist:
+        iplist.append(line.replace('\n', ''))
+    print map.format(*iplist)
 
 
 if __name__ == "__main__":
