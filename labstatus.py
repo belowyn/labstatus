@@ -3,13 +3,17 @@
 
 import sys, os, subprocess
 
-usage = "usage: " + str(sys.argv[0]) + " <labmap> <lablist>"
+usage = "usage: " + str(sys.argv[0]) + " <lab>"
 
-def readfile(inmap, inlist):
+def readfile(lab):
+    inmap = open(lab + '-map.txt', 'r')
+    inlist = open(lab + '-hosts.txt', 'r')
     map = str(inmap.read())
     iplist = []
     for line in inlist:
         iplist.append(line.replace('\n', ''))
+    inmap.close()
+    inlist.close()
     leMagic(map, iplist)
 
 def fping(iplist):
@@ -45,10 +49,9 @@ def leMagic(map, iplist):
     print map.format(*col)
 
 if __name__ == "__main__":
-    if len(sys.argv) > 2:
-        inmap = open(sys.argv[1], 'r')
-        inlist = open(sys.argv[2], 'r')
+    if len(sys.argv) > 1:
+        lab = sys.argv[1]
     else:
         print usage; sys.exit(1)
 
-    readfile(inmap, inlist)
+    readfile(lab)
