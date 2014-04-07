@@ -24,8 +24,10 @@ def readfile(lab):
     inlist = open(lab + '-hosts.txt', 'r')
     map = str(inmap.read())
     iplist = []
+
     for line in inlist:
         iplist.append(line.replace('\n', ''))
+    
     inmap.close()
     inlist.close()
     leMagic(map, iplist)
@@ -35,18 +37,18 @@ def fping(iplist):
     up = []
     down = []
 
-    sub = subprocess.Popen('fping', shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True)
+    iplist.insert(0, 'fping')
 
-    for ip in iplist:
-        sub.stdin.write('%s\n' % ip)
-    sub.stdin.close()
+    sub = subprocess.Popen(iplist, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True).communicate()[0]
+    
+    sub = sub.split('\n')
 
-    for line in sub.stdout:
+    for line in sub:
         if 'is alive' in line:
             up.append(line.split(' ')[0])
         elif 'is unreachable' in line:
             down.append(line.split(' ')[0])
-            
+    
     return up, down
 
 def leMagic(map, iplist):
