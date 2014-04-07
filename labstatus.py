@@ -1,9 +1,31 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys, os, subprocess
+import sys, os, subprocess, time, datetime
 
 usage = "usage: " + str(sys.argv[0]) + " <lab>"
+rooms = ["sb-1-1", "sb-1-2", "sb-2-gruppe", "sb-2-sal", "hw", "nt-10", "gm"]
+#timeLoop = 0
+#countLoop = 0
+
+
+
+def loop():
+    countLoop = 0
+
+    while 1:
+        countLoop += 1
+        for lab in rooms:
+            os.system('clear')
+            print "%s:\n" % lab.upper()
+            startTime = time.time()
+            readfile(lab)
+            timeLoop = time.time() - startTime
+            print "Script time: %.4f sec.\nLooped: %d\n" % (timeLoop, countLoop)
+            time.sleep(10)
+
+def info():
+    print timeLoop
 
 def readfile(lab):
     inmap = open(lab + '-map.txt', 'r')
@@ -49,9 +71,9 @@ def leMagic(map, iplist):
     print map.format(*col)
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
+    '''    if len(sys.argv) > 1:
         lab = sys.argv[1]
     else:
         print usage; sys.exit(1)
-
-    readfile(lab)
+    '''
+    loop()
