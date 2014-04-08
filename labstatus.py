@@ -46,20 +46,20 @@ def fping(iplist):
     for line in sub:
         if 'is alive' in line:
             up.append(line.split(' ')[0])
-        elif 'is unreachable' in line:
-            down.append(line.split(' ')[0])
-    
-    return up, down
+
+    del iplist[0]
+
+    return up
 
 def leMagic(map, iplist):
 
-    up, down = fping(iplist)
+    up = fping(iplist)
     col = []
 
     for ip in iplist:
         if ip in up:
             col.append('\033[92m' + ip + '\033[0m')
-        if ip in down:
+        else:
             col.append('\033[91m' + ip + '\033[0m')
 
     print map.format(*col)
