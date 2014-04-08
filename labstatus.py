@@ -39,7 +39,7 @@ def fping(iplist):
 
     iplist.insert(0, 'fping')
 
-    sub = subprocess.Popen(iplist, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True).communicate()[0]
+    sub = subprocess.Popen(iplist, shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True).communicate()[0]
     
     sub = sub.split('\n')
 
