@@ -3,7 +3,7 @@
 
 import sys, os, subprocess, time
 
-rooms = ["sb-1-1", "sb-1-2", "sb-2-gruppe", "sb-2-sal", "hw", "nt-10", "gm"]
+rooms = ["sb-1-1", "sb-1-2", "sb-2-gruppe", "sb-2-sal", "hw", "ikos", "nt-10", "gm"]
 
 def loop():
     countLoop = 0
