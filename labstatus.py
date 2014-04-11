@@ -27,40 +27,40 @@ def readfile(lab):
 
     for line in inlist:
         iplist.append(line.replace('\n', ''))
-    
+
     inmap.close()
     inlist.close()
     leMagic(map, iplist)
 
 def fping(iplist):
-    
+
     up = []
     down = []
 
     iplist.insert(0, 'fping')
+    iplist.insert(1, '-u')
+    iplist.insert(2, '-t')
+    iplist.insert(3, '251')
 
-    sub = subprocess.Popen(iplist, shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True).communicate()[0]
-    
-    sub = sub.split('\n')
-
-    for line in sub:
-        if 'is alive' in line:
-            up.append(line.split(' ')[0])
+    sub = subprocess.Popen(iplist, shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True).communicate()[0].split('\n')
 
     del iplist[0]
+    del iplist[0]
+    del iplist[0]
+    del iplist[0]
 
-    return up
+    return sub
 
 def leMagic(map, iplist):
 
-    up = fping(iplist)
+    down = fping(iplist)
     col = []
 
     for ip in iplist:
-        if ip in up:
-            col.append('\033[92m' + ip + '\033[0m')
-        else:
+        if ip in down:
             col.append('\033[91m' + ip + '\033[0m')
+        else:
+            col.append('\033[92m' + ip + '\033[0m')
 
     print map.format(*col)
 
