@@ -3,7 +3,7 @@
 
 import sys, os, subprocess, time
 
-rooms = ["sb-1-1", "sb-1-2", "sb-2-gruppe", "sb-2-sal", "hw", "ikos", "nt-3", "nt-8", "nt-10", "gm", "imk-bachelor", "imk-master"]
+rooms = ["sb-1-1", "sb-1-2", "sb-2-gruppe", "sb-2-sal", "hw", "ikos", "nt-3", "nt-8", "nt-10", "gm", "imk-bachelor", "imk-master", "zeb", "b11"]
 
 def loop():
     countLoop = 0
@@ -34,16 +34,17 @@ def readfile(lab):
 
 def fping(iplist):
 
-    up = []
-    down = []
-
     iplist.insert(0, 'fping')
-    iplist.insert(1, '-u')
+    iplist.insert(1, '-a')
     iplist.insert(2, '-t')
     iplist.insert(3, '251')
+    iplist.insert(4, '-r')
+    iplist.insert(5, '1')
 
     sub = subprocess.Popen(iplist, shell=False, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True).communicate()[0].split('\n')
 
+    del iplist[0]
+    del iplist[0]
     del iplist[0]
     del iplist[0]
     del iplist[0]
@@ -53,14 +54,15 @@ def fping(iplist):
 
 def leMagic(map, iplist):
 
-    down = fping(iplist)
+    up = fping(iplist)
     col = []
 
     for ip in iplist:
-        if ip in down:
-            col.append('\033[91m' + ip + '\033[0m')
-        else:
+        if ip in up:
             col.append('\033[92m' + ip + '\033[0m')
+        else:
+            col.append('\033[91m' + ip + '\033[0m')
+            
 
     print map.format(*col)
 
