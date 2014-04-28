@@ -11,15 +11,10 @@ def loop():
     while 1:
         countLoop += 1
         for lab in rooms:
-            os.system('clear')
-            print "%s:\n" % lab.upper()
-            startTime = time.time()
-            readfile(lab)
-            timeLoop = time.time() - startTime
-            print "Script time: %.4f sec.\nLooped: %d\n" % (timeLoop, countLoop)
+            readfile(lab, countLoop)
             time.sleep(10)
 
-def readfile(lab):
+def readfile(lab, countLoop):
     inmap = open(lab + '-map.txt', 'r')
     inlist = open(lab + '-hosts.txt', 'r')
     map = str(inmap.read())
@@ -30,12 +25,12 @@ def readfile(lab):
 
     inmap.close()
     inlist.close()
-    leMagic(map, iplist)
+    leMagic(map, iplist, lab, countLoop)
 
 def fping(iplist):
 
     iplist.insert(0, 'fping')
-    iplist.insert(1, '-a')
+    iplist.insert(1, '-u')
     iplist.insert(2, '-t')
     iplist.insert(3, '251')
     iplist.insert(4, '-r')
@@ -52,19 +47,29 @@ def fping(iplist):
 
     return sub
 
-def leMagic(map, iplist):
+def leMagic(map, iplist, lab, countLoop):
 
-    up = fping(iplist)
+    startTime = time.time()
+    down = fping(iplist)
     col = []
 
+#    if down[0] == '':
+#        return
+
+    os.system('clear')
+    print "%s:\n" % lab.upper()
+
     for ip in iplist:
-        if ip in up:
-            col.append('\033[92m' + ip + '\033[0m')
-        else:
+        if ip in down:
             col.append('\033[91m' + ip + '\033[0m')
-            
+        else:
+            col.append('\033[92m' + ip + '\033[0m')
 
     print map.format(*col)
 
+    timeLoop = time.time() - startTime
+    print "Script time: %.4f sec.\nLooped: %d\n" % (timeLoop, countLoop)
+
 if __name__ == "__main__":
+    os.system('clear')
     loop()
