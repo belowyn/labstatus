@@ -5,6 +5,8 @@ import sys, os, subprocess, time
 
 rooms = ["sb-1-1", "sb-1-2", "sb-2-gruppe", "sb-2-sal", "hw", "ikos", "nt-3", "nt-8", "nt-10", "gm", "imk-bachelor", "imk-master", "zeb", "b11"]
 
+labDown = "-"
+
 def loop():
     countLoop = 0
 
@@ -48,16 +50,23 @@ def fping(iplist):
     return sub
 
 def leMagic(map, iplist, lab, countLoop):
+    global labDown
 
     startTime = time.time()
     down = fping(iplist)
     col = []
 
-#    if down[0] == '':
-#        return
+    if down[0] == '':
+        if lab == labDown or labDown == "-":
+            labDown = "-"
+            os.system('clear')
+            print ("Keep calm and just relax, everything is working!")
+        return
+
+    labDown = lab
 
     os.system('clear')
-    print "%s:\n" % lab.upper()
+    print ("%s:\n") % lab.upper()
 
     for ip in iplist:
         if ip in down:
@@ -65,10 +74,10 @@ def leMagic(map, iplist, lab, countLoop):
         else:
             col.append('\033[92m' + ip + '\033[0m')
 
-    print map.format(*col)
+    print (map.format(*col))
 
     timeLoop = time.time() - startTime
-    print "Script time: %.4f sec.\nLooped: %d\n" % (timeLoop, countLoop)
+    print ("Script time: %.4f sec.\nLooped: %d\n") % (timeLoop, countLoop)
 
 if __name__ == "__main__":
     os.system('clear')
