@@ -62,7 +62,7 @@ def leMagic(map, iplist, lab, countLoop):
             labDown = "-"
             os.system('clear')
             print ("Keep calm and just relax, everything is working!")
-    #    return
+        return
 
     labDown = lab
 
