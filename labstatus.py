@@ -6,7 +6,7 @@ import sys, os, subprocess, time
 rooms = ["sb-1-1", "sb-1-2", "sb-2-gruppe", "sb-2-sal", "hw", "ikos", "nt-3", "nt-8", "nt-10", "gm", "imk-bachelor", "imk-master", "zeb", "b11"]
 
 labDown = "-"
-sleepTime = 60 * 10 # siste tallet er antall minutter
+sleepTime = 60 * 5  # siste tallet er antall minutter
 
 def loop():
     countLoop = 0
@@ -15,7 +15,8 @@ def loop():
         countLoop += 1
         for lab in rooms:
             readfile(lab, countLoop)
-            time.sleep(sleepTime)
+
+        time.sleep(sleepTime)
 
 def readfile(lab, countLoop):
     inmap = open(lab + '-map.txt', 'r')
@@ -66,6 +67,7 @@ def leMagic(map, iplist, lab, countLoop):
 
     labDown = lab
 
+    time.sleep(10)
     os.system('clear')
     print ("%s:\n") % lab.upper()
 
