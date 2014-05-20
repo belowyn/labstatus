@@ -79,7 +79,7 @@ def leMagic(map, iplist, lab, countLoop):
 
     print (map.format(*col))
 
-    timeLoop = time.time() - startTime
+    timeLoop = (time.time() - startTime) - 10
     print ("Script time: %.4f sec.\nLooped: %d\n") % (timeLoop, countLoop)
 
 if __name__ == "__main__":
